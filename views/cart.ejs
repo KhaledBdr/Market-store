@@ -1,0 +1,83 @@
+<%- include('parts/header') %> 
+<body>
+    <%- include('parts/nav-bar') %> 
+
+<div class="flaut-container bg-secondary pt-5 pb-5">
+    <div class="container bg-light rounded-2 pt-2 pb-5">
+        <% if(items.length === 0){ %> 
+            <h1 class="alet alert-danger mt-3 text-center p-4 mt-5"> There is No Items</h1>
+            <% }else{ %>
+                <h1 class="text-center mt-3 mb-3"> <span class="bg-dark text-danger p-2 mt-5 rounded-2"> Your</span> <span class="bg-dark text-primary p-2 mt-5 rounded-2"> Orders</span> </h1>
+             <table class="table table-bordered text-center p-0 m-0">
+                 <thead class="table-dark">
+                     <td class="me-5">no</td>
+                     <td class="me-5">Product Name</td>
+                     <td class="me-5">Price</td>
+                     <td class="me-5">Amount</td>
+                     <td class="me-5">Total</td>
+                     <td class="me-5"> Action To Take</td>
+                 </thead>
+<% var TotalPrice =0  %> 
+                 <% for(let i =0 ; i<items.length ; i++){  TotalPrice = TotalPrice +(items[i].price* items[i].amount) %>
+                    <tr>
+                        <td class="me-3"> <%= i+1 %> </td>
+                        <td class="me-3"> <%= items[i].name %> </td>
+                        <td class="me-3"> <%= items[i].price %> </td>
+                        <form action="/cart" method="post">
+                           <input type="hidden" name="cartId" value="<%=items[i]._id %>">
+                        <td class="me-3">
+                           <input type="text" class="form-control" name="amount" value="<%= items[i].amount%>"></input> 
+                      
+                        </td>
+                        <td class="me-3"> <%= items[i].price*items[i].amount %> </td>
+                        <td class="me-3">
+                            <input type="submit" value="Save" class="btn btn-warning me-1" formaction="/cart/save">
+                            <input type="hidden" name="ProductId" value="<%= items[i].productId%>">
+                            <input type="submit" value="Order" class="btn btn-success me-1" formaction="/orders/orderOne">
+                            <input type="submit" value="Delete" class="btn btn-danger" formaction="/cart/delete">
+                        </td>
+                    </form>
+                    <td>
+                    <form action="orders" method="post">
+                       
+                    </form>
+                </td>
+                    </tr>
+                    <% } %> 
+                    <% } %> 
+                    <br><br>
+                    <% for ( i=1 ; i<=5 ; i++){ %> 
+                   
+                    <td class="bg-dark"></td>
+                    <% } %> 
+
+
+                    <% if(items.length !== 0){ %> 
+                    <td class="bg-dark">
+                    <form action="/cart" method="post" class="d-inline me-1">
+                        <input type="submit" class="btn btn-success btn-lg" value="Order All" formaction="/orders/orderAll">
+                    </form>
+
+                    <form action="/cart" method="post" class="d-inline">
+                    
+                        <input type="submit" class="btn btn-danger btn-lg" value="Delete All" formaction="/cart/deleteAll">
+                    </td>
+                </form>
+                <% } %> 
+                    <% if(AmountPostErrors.length !== 0){ %>
+                        <p class="alert alert-danger"> 
+                           <%=  AmountPostErrors[0].msg  %>
+                               
+                            </p>
+                        <% } %>  
+             </table>
+             <% if(items.length !== 0){ %> 
+                  <h1 class="text-danger mt-5 text-center mb-5"> Total Price = <span class="text-primary p-2 bg-danger"> <%= TotalPrice %> $</span></h1>   
+             <% } %>    
+    </div>
+
+</div>
+
+    
+    <%- include('parts/footer') %> 
+</body>

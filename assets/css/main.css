@@ -1,0 +1,10 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    background: url("img.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.family{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

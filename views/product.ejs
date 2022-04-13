@@ -1,0 +1,36 @@
+<%- include('parts/header') %> 
+<body>
+<%- include('parts/nav-bar')  %> 
+
+<div class="container mt-5">
+<% if(!product){ %>
+    <div class="alert alert-danger">
+        THere is no product matches the entered ID please check The ID and Just Try Again
+    </div> 
+   <% }else{ %>  
+    <div class="row">
+      <div class="col col-sm-12 col-md-6 ">
+        <img class="img-thumbnail mb-5 max-width border border-danger border-5"  src="/<%=product.image%>" style="max-height: 450px;">
+
+  
+
+      </div>
+
+      <div class="col col-xs-12 col-sm-12 col-md-6 ">
+        <h1 class="text-danger bg-primary  text-center  shadow-lg p-3 mb-5 "> <%= product.name %></h1>
+        <h3 class="text-primary bg-danger p-2 text-center  shadow-sm  mb-5 "> <%= product.price%>$</h3>
+        <p class="bg-primary p-3 text-break"> <%= product.description %></p>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <form action="/cart" method="GET" class=" w-75 ">
+        <input type="number" name="amount" value="1" class="form-control mb-3">
+         
+        <input type="submit" value="Add to Cart " class="btn btn-success btn-outline-primary text-white btn-lg mb-5 w-75" style="margin-left: 12.5%;">
+        
+    </form>
+    </div>
+<% } %> 
+
+<%- include('parts/footer')  %> 
+</body>

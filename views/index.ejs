@@ -1,0 +1,82 @@
+<%- include('parts/header') %> 
+<body>
+
+    <%- include('parts/nav-bar') %> 
+
+    <div class="container mt-4">
+    <form action="/" method="GET">
+      <select class="form-select" aria-label="Default select example" name="category">
+        <option selected value="/" >All</option>
+        <option value="phones">Phones</option>
+        <option value="accessories">Accessories</option>
+        <option value="laptop">Laptops</option>
+        <option value="clothes">Clothes</option>
+      </select>
+      <div class="d-grid gap-2 col-5 mx-auto">
+         <input class="btn btn-primary mt-2" type="submit" value="Filter">
+    </div>
+    </form>
+</div>
+    <div class="container mt-5">
+        <% if(products.length ===0){ %> 
+            <div class="alert alert-danger">
+                There is No Products Right Now
+            </div>
+        <% }else{ %> 
+        <div class="row">
+      <% for(let product of products){ %> 
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+
+            <div class="card mb-4" style="width: 18rem;">
+                <img src="<%= product.image %>" class="card-img-top img-thumbnail" alt="productImage" style="background-size: cover;  min-height: 299px; max-height: 300px;">
+                <div class="card-body  p-2">
+                    <center>
+                    <h5 class="card-title p-2">
+                        <a href="/product/<%= product._id  %> ">
+                            <%= product.name %>
+                        </a>
+                    </h5>
+                    <p class="card-title"><span class="text-danger fw-bolder">Price:  </span>  <%= product.price %>$</p>
+                   
+                    <% if(isAdmin === true){ %>  
+                        <%= product._id  %>
+                        <form action="/delete" method="POST" class=" w-75 ">
+                          <input type="hidden" name="id" value="<%= product._id  %>" class="form-control mb-3">
+                           
+                          <input type="submit" value="Delete" class="btn btn-danger btn-outline-warning text-white btn-lg mb-5 w-75" style="margin-left: 12.5%;">
+                          
+                      </form>
+                    <% } else{%>
+                      
+                        <form method="POST" action="/cart"   class="mb-3">
+                            <input type="number" name="amount" value="1" class="form-control mb-3">
+                            <input type="hidden" name="name" value="<%= product.name %> ">
+                            <input type="hidden" name="price" value="<%= product.price %> ">
+                            <input type="hidden" name="productId" value="<%= product._id%> ">
+                            <input type="hidden" name="redirectTo" value="/">
+                            <input type="submit" value="Add to Cart " class="btn btn-primary">
+                           
+                        </form>
+                
+                      <% } %> 
+                   
+                   
+                </center>
+                </div>
+              </div>
+
+
+        </div>
+
+        <% } %>
+    </div> 
+         <% } %>
+         <% if(validationErrors){ %>
+            <p class="alert alert-danger">
+                    <%= validationErrors.msg%> 
+            </p>
+            <% } %> 
+    </div>
+
+    <%- include('parts/footer') %> 

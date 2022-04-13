@@ -1,0 +1,131 @@
+<%- include('parts/header') %> 
+<body>
+<%- include('parts/nav-bar')  %> 
+
+<% if(orders.length !== 0){ %> 
+<div class="container mt-5 mb-5 bg-info p-5 shadow-sm">
+    <div class="row">
+        <form action="/admin/manage" method="get" class="col col-xs-12 col-md-6 col-lg-3">
+            <input type="submit" value="All" class="form-control btn-outline-primary fw-bolder border-2 ">
+        </form>
+
+        <form action="/admin/manage" method="get" class="col col-xs-12 col-md-6 col-lg-3">
+            <input type="hidden" name="status" value="pending">
+            <input type="submit" value="Pending"   class="form-control btn-outline-warning  fw-bolder border-2 ">
+
+        </form>
+
+        <form action="/admin/manage" method="get" class="col col-xs-12 col-md-6 col-lg-3">
+            
+            <input type="hidden" name="status" value="sent">
+            <input type="submit" value="Sent"   class="form-control btn-outline-dark  fw-bolder border-2 ">
+        </form>
+
+        <form action="/admin/manage" method="get" class="col col-xs-12 col-md-6 col-lg-3">
+            
+            <input type="hidden" name="status" value="completed">
+            <input type="submit" value="Completed"   class="form-control btn-outline-success  fw-bolder border-2 ">
+        </form>
+    </div>
+</div>
+
+<div class="container">
+        <form action="/admin/manage" method="get" class=" ">
+            <input type="email" name="email" class="form-control d-block float-lg-start w-75 mb-2" placeholder="User Email">
+            <input type="submit" value="Search" class="form-control btn-outline-primary btn-info d-block float-lg-start w-25">
+        </form>
+</div>
+
+<div class="container mt-5 pt-5">
+    <table class="table table-responsive table-bordered mt-5">
+        <thead class="table-info text-center text-danger">
+            <td class="me-3 fw-bolder">
+                Email
+            </td>
+            <td class="me-5 fw-bolder">
+                Product name
+            </td>
+            <td class="me-0 fw-bolder">
+                Amount
+            </td>
+            <td class="me-5 fw-bolder">
+                Cost
+            </td>
+            <td class="me-5 fw-bolder">
+                Address
+            </td>
+            <td class="me-5 fw-bolder">
+                Status
+            </td>
+            <td class="me-5 fw-bolder">
+                Time
+            </td>        
+            <td class="me-5 bg-danger">
+                <span class="text-primary fw-bolder"> Save</span>
+            </td>
+        </thead>
+
+        <tbody>
+        <!--      Body   -->
+
+        <% for(let i = 0 ; i<orders.length ; i++){ %> 
+            <tr>
+            <td class="me-3 fw-bolder">
+                <%= orders[i].email  %> 
+            </td>
+            <td class="me-5 fw-bolder">
+                <%= orders[i].name  %> 
+            </td>
+            <td class="me-5 fw-bolder">
+                <%= orders[i].amount  %> 
+            </td>
+            <td class="me-2 fw-bolder">
+                <%= orders[i].amount * orders[i].price  %> 
+            </td>
+            <td class="me-5 fw-bolder">
+                "Address"
+            </td>
+            <form action="/admin/manage" method="post">
+            <td class="me-5 fw-bolder">
+                <select class="form-select text-warning fw-bolder" name="status" aria-label="Default select example">
+                    <% if(orders[i].status === "pending"){ %> 
+                    <option value="<%= orders[i].status%>" selected>Pending</option>
+                    <option value="sent">Sent</option>
+                    <option value="completed">Completed</option>
+                    <% }else if( orders[i].status === "sent"){ %>
+                            <option value="<%= orders[i].status%>" selected>Sent</option>
+                            <option value="pending">pending</option>
+                            <option value="completed">Completed</option>
+                            <% }else if(orders[i].status === "completed"){ %>
+                                    <option value="<%= orders[i].status%>" selected>Completed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="sent">Sent</option>
+                                    <% } %>  
+                  </select>
+
+                
+            </td>
+            <td class="me-5 fw-bolder">
+                <%=new Date(orders[i].timestamp).toString().substr(4, 20);   %>
+                
+            </td>        
+            <td class="me-5 bg-danger">
+                
+                <input type="hidden" name="orderId" value="<%= orders[i]._id %>">
+                <input type="submit" class="form-control btn btn-warning" value="Save">
+                
+            </td>
+        </form>
+</tr>
+        <% } %> 
+        <!--     End Body-->
+        </tbody>
+
+    </table>
+</div>
+<% }else{ %>
+
+<h1 class="bg-primary p-5 mt-5 text-center fs-1 fst-italic"> There are <span class="text-light"> no Orders</span></h1>
+<% } %> 
+<%- include('parts/footer')  %> 
+</body>
